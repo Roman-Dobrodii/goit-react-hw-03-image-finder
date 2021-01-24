@@ -22,17 +22,39 @@ export default class App extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    const { searchQuery, page } = this.state;
+
+    if (prevState.searchQuery !== searchQuery) {
+      imagesApi
+        .imagesFetchApi(searchQuery, page)
+        .then(data => {
+          this.setState(prevState => ({
+            page: prevState.page + 1,
+            images: data,
+            isLoading: true,
+          }));
+        })
+        .catch(error => this.setState({ error }))
+        .finally(() => {
+          this.setState({
+            isLoading: false,
+          });
+        });
+    }
+
     if (prevState.images.length !== this.state.images.length) {
-      window.scrollBy({
+      window.scrollTo({
         top: document.documentElement.scrollHeight,
         behavior: 'smooth',
       });
     }
   }
 
-  getImages = e => {
+  getImages = () => {
     const { searchQuery, page } = this.state;
-    this.setState({ isLoading: true });
+    this.setState({
+      isLoading: true,
+    });
 
     imagesApi
       .imagesFetchApi(searchQuery, page)
@@ -58,7 +80,7 @@ export default class App extends Component {
     });
   };
 
-  loadMoreImages = e => {
+  loadMoreImages = () => {
     const { searchQuery, page } = this.state;
     this.getImages(searchQuery, page);
   };
