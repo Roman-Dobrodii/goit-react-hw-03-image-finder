@@ -10,4 +10,6 @@ const imagesFetchApi = (input, page) => {
     .then(response => response.data.hits);
 };
 
-export default { imagesFetchApi };
+const api = { imagesFetchApi };
+
+export default api;

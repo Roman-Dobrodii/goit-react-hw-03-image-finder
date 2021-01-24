@@ -6,7 +6,7 @@ import ImageGallery from '../ImageGallery/ImageGallery';
 import Loading from '../Loader/Loader';
 import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
-import imagesFetchApi from '../Services/ImagesApi';
+import imagesApi from '../Services/ImagesApi';
 
 import styles from './App.module.css';
 
@@ -34,7 +34,7 @@ export default class App extends Component {
     const { searchQuery, page } = this.state;
     this.setState({ isLoading: true });
 
-    imagesFetchApi
+    imagesApi
       .imagesFetchApi(searchQuery, page)
       .then(images => {
         this.setState(prevState => ({
